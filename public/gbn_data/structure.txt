@@ -1,0 +1,69 @@
+0	a			
+1	a	b		
+2	b	ab	c	
+3	c	d	f	
+4	e	d		
+5	e	g		
+6	f	g	h	
+7	h	i		
+8	i	j	bu	
+9	j	k		
+10	k	l		
+11	l	m	bv	
+12	m	n	r	bw
+13	n	o		
+14	o	p	bx	
+15	p	q	s	
+16	q	by		
+17	r	t		
+18	s	u		
+19	ac	v	t	
+20	v	w	ca	
+21	w	x	ad	
+22	x	y	u	
+23	y	z	ae	
+24	z	aa	cc	
+25	aa			
+26	ab	af	ah	
+27	af	ag		
+28	ag	ac	ai	bz
+29	ad	cb		
+30	ae	aj		
+31	ah	ak		
+32	aj	am		
+33	am	ao		
+34	ak	al		
+35	al	an	ai	cd
+36	ao	ap		
+37	aq			
+38	aq	ar	av	
+39	an	ar	as	ce
+40	as	at		
+41	at	au		
+42	au	ap	aw	
+43	av			
+44	aw			
+45	ax	bu		
+46	ay	ax		
+47	az	ax		
+48	az	ba	bv	
+49	ba	bb	bf	bw
+50	bb	bc	bx	
+51	bc	bd		
+52	bd	be		
+53	be	bg	by	
+54	bf	bh		
+55	bg	bi		
+56	bi	bj		
+57	bn	bk	bh	
+58	bk	bl	ca	
+59	bl	bm		
+60	bm	bj	cc	
+61	bn	bo	bz	
+62	bo	bp		
+63	bp	bq	cd	
+64	bq	ce		
+65	bs	bz		
+66	br			
+67	bt	cb		
+68	br	bs	bt	
