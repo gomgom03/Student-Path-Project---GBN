@@ -1,12 +1,14 @@
 
 let gbnData = {};
+let studentPaths = {};
 let mapProps = { paths: {}, points: {}, rooms: {}, students: {} };
 let param = {
-    maxDistDiff: 1.5
+    maxDistDiff: 1.2,
+    initialDepth: 12,
+    traceRemainTime: 300
 }
 
 function setup() {
-    //fetch data
     (() => {
         rtf("pathsD", "/gbn_data/paths.txt", gbnData);
         rtf("pointsD", "/gbn_data/points.txt", gbnData);
@@ -16,8 +18,9 @@ function setup() {
 
     function createMap() {
         if (Object.keys(gbnData).length !== 4) {
-            requestAnimationFrame(createMap);
             return;
+        } else {
+            clearInterval(tInterv);
         }
         let { pathsD, pointsD, structD, studentsD } = gbnData;
         if (structD.length !== pointsD.length) { throw "Invalid Data Input" };
@@ -54,10 +57,10 @@ function setup() {
 
         for (let i = 0; i < studentsD.length; i++) {
             let tmpStuDRow = studentsD[i];
-            students[tmpStuDRow[0]] = { type: "student", curRoom: tmpStuDRow[1], destRooms: [...tmpStuDRow].splice(2), id: tmpStuDRow[0] }
+            students[tmpStuDRow[0]] = { type: "student", periodRooms: [...tmpStuDRow].splice(1), id: tmpStuDRow[0] }
         }
     }
-    requestAnimationFrame(createMap);
+    let tInterv = setInterval(createMap, 10);
 }
 
 setup();
@@ -73,84 +76,73 @@ function rtf(name, path, obj) {
     rf.send();
 }
 
-function findPaths(stu) {
+function pointPathSearch(student, prm, period) {
+    let { id, s, e, t, findMin, maxDepth, minVal, shiftPath, trialNum, fullPathSearch } = prm;
     let { paths, points, rooms, students } = mapProps;
-    let start = rooms[stu.curRoom].roomLink;
-    let end = stu.destRooms.shift();
-    let target = rooms[end].roomLink;
-    let targetType = target.type;
-    stu.curRoom = end;
+    let { maxDistDiff } = param;
+    if (s.id === t.id) {
+        studentPaths[id] = [s];
+        return;
+    }
+    let targetType = t.type;
+
 
     let allPaths = [];
 
-    //modify later for starting in the middle of a hallway
-    let curPoints = [start]
+    let curPoints = [s];
     let curPath = [];
+    let curLen = 0;
+    shiftPath != null ? curLen = shiftPath.distance : null;
+    let minLen = minVal;
+    let maxLen = minVal ? minVal * maxDistDiff : null;
+    //console.log(maxLen)
+
     let pathOption = [];
     let depth = 0;
     let count = 0;
+
     async function searchPaths() {
-        let tempOutput = curPath.map(x => x.id);
         count++;
-        count % 100 === 0 ? console.log(allPaths, count) : null;
-        //console.log(pathOption);
-        //console.log(allPaths, tempOutput, curPath, pathOption, depth);
+        //right next to each other and sing at a path
         let tempPoint = curPoints[depth];
         let tempPath;
         while (true) {
-            //console.log("a", tempPath, curPath, pathOption)
             pathOption.length !== depth + 1 ? pathOption[depth] = 0 : pathOption[depth]++;
             tempPath = tempPoint.links[pathOption[depth]];
-            //console.log(tempPath, tempPath == null)
-            if (!tempPath) { break }
-            if (curPath.find(x => tempPath.id === x.id) == null) { break };
+            if (maxDepth != null && depth === maxDepth) { tempPath = null; break };
+            if (!tempPath) { break; }
+            if (maxLen != null && maxLen < curLen + tempPath.distance) { continue };
+            if (!(shiftPath != null && tempPath.id === shiftPath.id) && curPath.find(x => tempPath.id === x.id) == null) { break; };
         }
 
         let continueSearch = false;
         if (tempPath == null) {
             if (depth !== 0) {
                 depth--;
-                curPath.pop();
+                let poppedPath = curPath.pop();
                 pathOption.pop();
                 curPoints.pop();
+                curLen -= poppedPath.distance;
                 continueSearch = true;
 
             }
         } else {
+
+            //resolve issue of finding path
+
             depth++;
             curPath.push(tempPath);
+            curLen += tempPath.distance;
             tempPath.links[0].id === tempPoint.id ? curPoints.push(tempPath.links[1]) : curPoints.push(tempPath.links[0]);
             continueSearch = true;
             if (targetType === "point") {
-                //console.log(curPoints[curPoints.length - 1], target.id);
-                curPoints[curPoints.length - 1].id === target.id ? allPaths.push([...curPath]) : null;
+                curPoints[curPoints.length - 1].id === t.id ? (allPaths.push({ path: [...curPath], distance: curLen, points: [...curPoints] }), minLen == null || curLen < minLen ? (minLen = curLen, maxLen = curLen * maxDistDiff) : null) : null;
             } else {
-                curPath[curPath.length - 1].id === target.id ? allPaths.push([...curPath]) : null;
+                curPath[curPath.length - 1].id === t.id ? (allPaths.push({ path: [...curPath], distance: curLen, points: [...curPoints] }), minLen == null || curLen < minLen ? (minLen = curLen, maxLen = curLen * maxDistDiff) : null) : null;
             }
         }
-
         return continueSearch;
 
-
-        /*
-        let tPoint = curPoints[curPoints.length - 1];
-        if (tPoint.type === "point") {
-            let tPath = tPoint.links[pathOption[depth] + 1]
-            if (tPath) {
-                pathOption[depth]++;
-                if (curPath.filter(x => tPath.id === x.id).length !== 0) {
-                    let tPath2 = temp.links[pathOption[depth] + 1];
-                    if (tPath2) {
-                        pathOption[depth]++;
-                    } else {
-                        depth--;
-                        pathOption.pop();
-                        curPath.splice(curPath.length - 2)
-                    }
-                }
-            }
-        }
-        */
     }
 
     async function queueSP() {
@@ -158,13 +150,200 @@ function findPaths(stu) {
             if (queue) {
                 setTimeout(() => { queueSP() }, 0.1)
             } else {
-                return allPaths;
+                resolveFind();
             }
         })
+
+
     }
 
     queueSP();
 
+    function resolveFind() {
+        if (findMin) {
+            minLen != null ? typeof studentPaths[id] === "number" ? minLen < studentPaths[id] ? studentPaths[id] = minLen : null : studentPaths[id] = minLen : null;
+            trialNum === 0 ? pointPathSearch(student, {
+                id: id,
+                s: shiftPath.links[1],
+                e: e,
+                t: t,
+                findMin: true,
+                maxDepth: maxDepth,
+                shiftPath: shiftPath,
+                trialNum: 1,
+                fullPathSearch: fullPathSearch
+            }, period) : fullPathSearch ? studentPathFind(student, false, period) : asyncCounter.add();
+        } else {
+            if (shiftPath != null) {
+                allPaths.map(x => [shiftPath].concat(x));
+            }
+            typeof studentPaths[id] === "object" ? studentPaths[id].paths = studentPaths[id].paths.concat(allPaths) : studentPaths[id] = { paths: allPaths, minLen: minLen, id: id };
+            trialNum === 0 ? pointPathSearch(student, {
+                id: id,
+                s: shiftPath.links[1],
+                e: e,
+                t: t,
+                findMin: false,
+                shiftPath: shiftPath,
+                trialNum: 1,
+                minVal: minLen
+            }, period) : asyncCounter.add();
+        }
+    }
 
 }
 
+function studentPathFind(stu, limitDepth, period) {
+    let { paths, points, rooms, students } = mapProps;
+    let { maxDistDiff, initialDepth } = param;
+    let start = rooms[stu.periodRooms[period - 1]].roomLink;
+    let end = stu.periodRooms[period];
+    let target = rooms[end].roomLink;
+    if (start.type === "point") {
+        limitDepth ? pointPathSearch(stu, {
+            id: stu.id,
+            s: start,
+            e: end,
+            t: target,
+            findMin: true,
+            maxDepth: initialDepth,
+            fullPathSearch: true
+        }, period) : pointPathSearch(stu, {
+            id: stu.id,
+            s: start,
+            e: end,
+            t: target,
+            findMin: false,
+            fullPathSearch: true,
+            minVal: typeof studentPaths[stu.id] === "number" ? studentPaths[stu.id] : null
+        }, period)
+    } else {
+        limitDepth ? pointPathSearch(stu, {
+            id: stu.id,
+            s: start.links[0],
+            e: end,
+            t: target,
+            findMin: true,
+            maxDepth: initialDepth,
+            shiftPath: start,
+            trialNum: 0,
+            fullPathSearch: true
+        }, period) : pointPathSearch(stu, {
+            id: stu.id,
+            s: start.links[0],
+            e: end,
+            t: target,
+            findMin: false,
+            shiftPath: start,
+            trialNum: 0,
+            fullPathSearch: true,
+            minVal: typeof studentPaths[stu.id] === "number" ? studentPaths[stu.id] : null
+        }, period)
+    }
+
+}
+
+let asyncCounter = {
+    count: 0,
+    max: null,
+    cb: null,
+    add: function () {
+        this.count++;
+        this.max === this.count ? this.cb() : null;
+    },
+    reset: function () {
+        this.count = 0;
+        this.cb = null;
+        this.max = null;
+    },
+}
+
+function all_spf(period) {
+    asyncCounter.reset();
+    asyncCounter.cb = all_minContact;
+    if (period < 0 || period > 8) { console.log("invalid period"); return };
+    studentPaths = {};
+    let tNum = 0;
+    for (let key in mapProps.students) {
+        studentPathFind(mapProps.students[key], true, period);
+        tNum++;
+    }
+    asyncCounter.max = tNum;
+}
+
+function all_minContact() {
+    let pathQueueOrder = [];
+    let tempPathObj = {};
+    let tempStuObj = {};
+    for (let key in studentPaths) {
+        pathQueueOrder.push(studentPaths[key]);
+    }
+    console.log("done")
+    pathQueueOrder.sort((a, b) => (a.minLen > b.minLen) ? 1 : ((b.minLen > a.minLen) ? -1 : 0));
+    for (let key in mapProps.paths) {
+        tempPathObj[key] = { traces: [] }
+    }
+    for (let key in mapProps.students) {
+        tempStuObj[key] = { contacted: [] }
+    }
+
+}
+
+function findMaxDepth(storeMin = false) {
+    let tMaxDepth = 0;
+    let tPaths = Object.keys(mapProps.paths);
+    let tStudents = [];
+    for (let i = 0; i < tPaths.length - 1; i++) {
+        for (let j = i + 1; j < tPaths.length; j++) {
+            tStudents.push({ id: `${i}-${j}`, periodRooms: [tPaths[i], tPaths[j]], type: "student" });
+            studentPaths[`${i}-${j}`] = null;
+        }
+    }
+    asyncCounter.reset();
+    asyncCounter.cb = checkAndQueue;
+    asyncCounter.max = tStudents.length;
+    function checkAndQueue() {
+        asyncCounter.count = 0;
+        let queueAgain = false;
+        tMaxDepth++;
+        if (tMaxDepth === 1) {
+            queueAgain = true;
+        } else {
+            for (let key in studentPaths) {
+                if (studentPaths[key] == null) { queueAgain = true; console.log(tPaths[key.split("-")[0]], tPaths[key.split("-")[1]], key); break }
+            }
+        }
+        if (queueAgain) {
+            console.log(`Max Depth ${tMaxDepth} unsuccessful`);
+            tStudents.forEach(x => {
+                if (studentPaths[x.id] == null) {
+                    let { paths } = mapProps;
+                    let start = paths[x.periodRooms[0]];
+                    let end = 0;
+                    let target = paths[x.periodRooms[1]];
+                    pointPathSearch(x, {
+                        id: x.id,
+                        s: start.links[0],
+                        e: end,
+                        t: target,
+                        findMin: true,
+                        maxDepth: tMaxDepth,
+                        shiftPath: start,
+                        trialNum: 0,
+                        fullPathSearch: false
+                    }, 0)
+                } else {
+                    asyncCounter.add();
+                }
+
+
+            });
+
+        } else {
+            console.log(`Max Depth ${tMaxDepth} SUCCESS`)
+            storeMin ? param.initialDepth = tMaxDepth : null;
+            studentPaths = {}
+        }
+    }
+    checkAndQueue();
+}

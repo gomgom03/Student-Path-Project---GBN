@@ -45,7 +45,7 @@
 44	aw			
 45	ax	bu		
 46	ay	ax		
-47	az	ax		
+47	az	ay		
 48	az	ba	bv	
 49	ba	bb	bf	bw
 50	bb	bc	bx	
