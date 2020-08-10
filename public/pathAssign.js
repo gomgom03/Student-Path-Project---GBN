@@ -278,7 +278,7 @@ function all_minContact() {
     for (let key in studentPaths) {
         pathQueueOrder.push(studentPaths[key]);
     }
-    console.log("done")
+    console.log(studentPaths)
     pathQueueOrder.sort((a, b) => (a.minLen > b.minLen) ? 1 : ((b.minLen > a.minLen) ? -1 : 0));
     for (let key in mapProps.paths) {
         tempPathObj[key] = { traces: [] }
