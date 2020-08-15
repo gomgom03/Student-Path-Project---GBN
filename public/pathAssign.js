@@ -7,7 +7,7 @@ let param = {
     initialDepth: 12,
     traceRemainTime: 60,
     avgPace: 3.1,
-    minimizeIteration: 4,
+    minimizeIteration: 1,
     period: 1
 }
 
