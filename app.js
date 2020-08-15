@@ -13,3 +13,11 @@ let server = app.listen(port, () => {
 app.get('/', (req, res) => {
     res.render('home.ejs')
 });
+
+app.get('/studata', (req, res) => {
+    res.render('stuData.ejs')
+})
+
+app.get('/gbnmap', (req, res) => {
+    res.render('gbnMap.ejs')
+})

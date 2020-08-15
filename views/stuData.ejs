@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data</title>
+</head>
+
+<body>
+    <h1>Student Data</h1>
+    <p>Each list item is a representative of a student. <br> The first number is the student ID and the rest are the
+        rooms the student is to be at given periods.</p>
+    <ul id="textField"></ul>
+    <script>
+        let gbnData = {};
+
+        let tf = document.getElementById("textField");
+
+        function rtf(name, path, obj) {
+            let rf = new XMLHttpRequest();
+            rf.open("GET", path, true);
+            rf.onreadystatechange = function () {
+                if (rf.readyState === 4) {
+                    obj[name] = rf.responseText.split("\n").map(a => a.split("\t").filter(b => b !== "" && b !== "\x0d").map(c => c.split("\x0d").filter(d => d !== "").join("")));
+                }
+            }
+            rf.send();
+        }
+        rtf("studentsD", "/gbn_data/students.txt", gbnData);
+        let tInterv = setInterval(printData, 10);
+        function printData() {
+            if (gbnData.studentsD == null) { return }
+            let { studentsD } = gbnData;
+            for (let i = 0; i < studentsD.length; i++) {
+                let tStudent = "";
+                let tmpStuDRow = studentsD[i];
+                for (let j = 0; j < tmpStuDRow.length; j++) {
+                    tStudent += tmpStuDRow[j];
+                    j + 1 === tmpStuDRow.length ? null : tStudent += " - | - "
+
+                }
+                let tempLi = document.createElement("li");
+                tempLi.textContent = tStudent;
+                tf.appendChild(tempLi)
+
+            }
+            clearInterval(tInterv);
+        }
+    </script>
+</body>
+
+</html>
