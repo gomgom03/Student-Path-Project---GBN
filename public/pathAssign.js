@@ -496,7 +496,7 @@ function updateStats(numContacted) {
     let trialElem = document.createElement("h2");
     trialElem.textContent = `Trial #${curTrial}:`
     let ncElem = document.createElement("h3");
-    ncElem.textContent = "Number of students contacted: " + numContacted
+    ncElem.textContent = "Number of Student-to-student contact: " + numContacted
     let stuPathElem = document.createElement("ul");
     for (let key in studentPathChoice) {
         let tempLi = document.createElement("li");
