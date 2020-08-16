@@ -431,7 +431,7 @@ function findMaxDepth(storeMin = false) {
             }
         }
         if (queueAgain) {
-            console.log(`Max Depth ${tMaxDepth} unsuccessful`);
+            putData(`Max Depth ${tMaxDepth} unsuccessful`);
             tStudents.forEach(x => {
                 if (studentPaths[x.id] == null) {
                     let { paths } = mapProps;
@@ -457,7 +457,7 @@ function findMaxDepth(storeMin = false) {
             });
 
         } else {
-            console.log(`Max Depth ${tMaxDepth} SUCCESS`)
+            putData(`Max Depth ${tMaxDepth} SUCCESS`)
             storeMin ? param.initialDepth = tMaxDepth : null;
             studentPaths = {}
         }
@@ -467,10 +467,14 @@ function findMaxDepth(storeMin = false) {
 
 // TEMPORARY CODE
 let tDocInterv;
+let startable = true;
 let curTrial = 1;
 
 document.getElementById("start").addEventListener("click", () => {
-    if (tDocInterv != null) { return }
+
+    if (!startable) { return }
+    startable = false;
+    statsDiv.innerHTML = "";
     curTrial = 1;
     let paramSetArr = Object.keys(param);
     for (let i = 0; i < paramSetArr.length; i++) {
@@ -487,7 +491,7 @@ function checkEverything() {
     asyncShowDiv.textContent = "Student Paths Calculated: " + asyncCounter.count + " / " + asyncCounter.max;
 
 
-    if (asyncCounter.count === asyncCounter.max) { clearInterval(tDocInterv) };
+    if (asyncCounter.count === asyncCounter.max) { clearInterval(tDocInterv); startable = true };
 }
 
 function updateStats(numContacted) {
@@ -508,6 +512,22 @@ function updateStats(numContacted) {
     tempContDiv.appendChild(stuPathElem);
     statsDiv.appendChild(tempContDiv)
     curTrial++;
+}
+
+//FIND MAX DEPTH;
+
+document.getElementById("findMaxDepth").addEventListener("click", () => {
+    if (!startable) { return }
+    startable = false;
+    statsDiv.innerHTML = "";
+    findMaxDepth();
+})
+
+function putData(data) {
+    let tempDiv = document.createElement("div");
+    tempDiv.textContent = data;
+    statsDiv.appendChild(tempDiv);
+    data.indexOf("SUCCESS") !== -1 ? startable = true : null;
 }
 
 // CREATE STUDENTS

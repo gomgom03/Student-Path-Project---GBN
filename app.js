@@ -21,3 +21,7 @@ app.get('/studata', (req, res) => {
 app.get('/gbnmap', (req, res) => {
     res.render('gbnMap.ejs')
 })
+
+app.get('/findmaxdepth', (req, res) => {
+    res.render('findMaxDepth.ejs')
+})
