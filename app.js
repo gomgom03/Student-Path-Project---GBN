@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.render('home.ejs')
 });
 
+app.get('/testerhome', (req, res) => {
+    res.render('tester-home.ejs')
+});
+
 app.get('/studata', (req, res) => {
     res.render('stuData.ejs')
 })
@@ -25,3 +29,8 @@ app.get('/gbnmap', (req, res) => {
 app.get('/findmaxdepth', (req, res) => {
     res.render('findMaxDepth.ejs')
 })
+
+app.get('/test', (req, res) => {
+    res.render('tester.ejs');
+})
+
