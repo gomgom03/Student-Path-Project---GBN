@@ -14,6 +14,10 @@ app.get('/', (req, res) => {
     res.render('home.ejs')
 });
 
+app.get('/pathfind', (req, res) => {
+    res.render("pathfind.ejs")
+})
+
 app.get('/testerhome', (req, res) => {
     res.render('tester-home.ejs')
 });
