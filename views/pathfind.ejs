@@ -31,58 +31,85 @@
                     <div class="col-lg-8 mx-auto">
                         <h1 class="brand-heading">Pathfind</h1>
                         <p class="intro-text">Fill information below to start pathfinding<br>Make sure the input data
-                            works.</p><a class="btn btn-link btn-circle" role="button" href="#about"><i
+                            works.</p><a class="btn btn-link btn-circle js-scroll-trigger" role="button" href="#pf"><i
                                 class="icon ion-chevron-down animated"></i></a>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    <section id="about" class="content-section text-center">
+    <section id="pf" class="content-section text-center" style="background: url(assets/img/gear.png) center / contain;">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <h2>Configure Pathfind</h2>
-                    <form id="msform">
-                        <!-- progressbar -->
-                        <ul id="progressbar">
-                            <li class="active">Account Setup</li>
-                            <li>Social Profiles</li>
-                            <li>Personal Details</li>
-                        </ul>
-                        <!-- fieldsets -->
-                        <fieldset>
-                            <h2 class="fs-title">Create your account</h2>
-                            <h3 class="fs-subtitle">This is step 1</h3>
-                            <input type="text" name="email" placeholder="Email" />
-                            <input type="password" name="pass" placeholder="Password" />
-                            <input type="password" name="cpass" placeholder="Confirm Password" />
-                            <input type="button" name="next" class="next action-button" value="Next" />
-                        </fieldset>
-                        <fieldset>
-                            <h2 class="fs-title">Social Profiles</h2>
-                            <h3 class="fs-subtitle">Your presence on the social network</h3>
-                            <input type="text" name="twitter" placeholder="Twitter" />
-                            <input type="text" name="facebook" placeholder="Facebook" />
-                            <input type="text" name="gplus" placeholder="Google Plus" />
-                            <input type="button" name="previous" class="previous action-button" value="Previous" />
-                            <input type="button" name="next" class="next action-button" value="Next" />
-                        </fieldset>
-                        <fieldset>
-                            <h2 class="fs-title">Personal Details</h2>
-                            <h3 class="fs-subtitle">We will never sell it</h3>
-                            <input type="text" name="fname" placeholder="First Name" />
-                            <input type="text" name="lname" placeholder="Last Name" />
-                            <input type="text" name="phone" placeholder="Phone" />
-                            <textarea name="address" placeholder="Address"></textarea>
-                            <input type="button" name="previous" class="previous action-button" value="Previous" />
-                            <input type="submit" name="submit" class="submit action-button" value="Submit" />
-                        </fieldset>
-                    </form>
+            <div class="col-lg-8 mx-auto">
+                <h1>Import Map Data</h1>
+
+                <div class="mb-3">
+                    <label>Located in Server</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        placeholder="Enter email">
                 </div>
+                <div class="mb-3">
+                    <label>Import Files (.txt) </label>
+                    <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="mb-3 text-center">
+                    <label>Copy and Paste</label>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <textarea class="input-fields" placeholder="Paths" name="" id="txtar1" width=" 100%"
+                                rows="200"></textarea>
+                        </div>
+                        <div class="col-lg-4">
+                            <textarea class="input-fields" placeholder="Points" name="" id="txtar1" width="100%"
+                                rows="200"></textarea>
+                        </div>
+                        <div class="col-lg-4">
+                            <textarea class="input-fields" placeholder="Points" name="" id="txtar1" width="100%"
+                                rows="200"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="mb-3">
+                    <button class="info-buttons"><i class="far fa-question-circle"></i></button>
+                </div>
+                <button><small>Test Input</small></button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+
+            </div>
+    </section>
+
+    <section id="pf" class="content-section text-center" style="background: url(assets/img/gear.png) center / contain;">
+        <div class="container">
+            <div class="col-lg-8 mx-auto">
+                <h1>Input Data & Options</h1>
+                <form>
+                    <h4>Import Custom Data</h4>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">School Paths</label>
+                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                            placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">School Structure</label>
+                        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">School Points</label>
+                        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <button><small>Test Input</small></button>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
             </div>
         </div>
     </section>
+
 
     <footer>
         <div class="container text-center">
@@ -93,7 +120,6 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="assets/js/scroll.js"></script>
-    <script src="assets/pathfind/pathfind-style.js"></script>
 </body>
 
 </html>
