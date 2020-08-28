@@ -22,13 +22,13 @@ app.get('/testerhome', (req, res) => {
     res.render('tester-home.ejs')
 });
 
-// app.get('/studata', (req, res) => {
-//     res.render('stuData.ejs')
-// })
+app.get('/studata', (req, res) => {
+    res.render('stuData.ejs')
+})
 
-// app.get('/gbnmap', (req, res) => {
-//     res.render('gbnMap.ejs')
-// })
+app.get('/gbnmap', (req, res) => {
+    res.render('gbnMap.ejs')
+})
 
 // app.get('/findmaxdepth', (req, res) => {
 //     res.render('findMaxDepth.ejs')

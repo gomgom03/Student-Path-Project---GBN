@@ -64,7 +64,7 @@
                                 rows="200"></textarea>
                         </div>
                         <div class="col-lg-4">
-                            <textarea class="input-fields" placeholder="Points" name="" id="txtar1" width="100%"
+                            <textarea class="input-fields" placeholder="Structure" name="" id="txtar1" width="100%"
                                 rows="200"></textarea>
                         </div>
                     </div>
@@ -88,16 +88,38 @@
                     <h4>Import Custom Data</h4>
                     <div class="form-group">
                         <label for="exampleInputEmail1">School Paths</label>
-                        <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                            placeholder="Enter email">
+                        <input class="input-fields" type="number"
+                            placeholder="Max Distance Difference from shortest distance default 1.2 (120%)"
+                            id="maxDistDiff" style="display: block; width:98%; margin: 10px;">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">School Structure</label>
-                        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input class="input-fields" type="number"
+                            placeholder="Initial Depth of DFS. For GBN, the value of 15 was found by the findMaxDepth function but 12 is used to optimal performance. Browse console for this console for more info default 12"
+                            id="initialDepth" style="display: block; width:98%; margin: 10px;">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">School Points</label>
-                        <input type="file" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                        <input class="input-fields" type="number"
+                            placeholder="Time that the trace of the coronavirus remains in a hallway or point node default 60(s)"
+                            id="traceRemainTime" style="display: block; width:98%; margin: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">School Points</label>
+                        <input class="input-fields" type="number"
+                            placeholder="Average pace of a human being default 3.1 (m/s)" id="avgPace"
+                            style="display: block; width:98%; margin: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">School Points</label>
+                        <input class="input-fields" type="number"
+                            placeholder="# of minmizing contact function loop iterations default 1 "
+                            id="minimizeIteration" style="display: block; width:98%; margin: 10px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">School Points</label>
+                        <input class="input-fields" type="number" placeholder="What period just ended? 1-7 default 1"
+                            id="period" style="display: block; width:98%; margin: 10px;">
                     </div>
                     <button><small>Test Input</small></button>
                     <div class="form-check">
@@ -106,6 +128,14 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
+            </div>
+            <div class="container">
+
+
+
+
+
+
             </div>
         </div>
     </section>
