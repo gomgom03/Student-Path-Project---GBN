@@ -39,6 +39,7 @@ function updateStats(numContacted) {
     let stuPathElem = document.createElement("ul");
     for (let key in studentPathChoice) {
         let tempLi = document.createElement("li");
+        tempLi.style.marginBottom = "20px"
         tempLi.innerHTML = `<strong><u>Student ${key} Path </u>(From ${mapProps.students[key].periodRooms[param.period - 1]} to ${mapProps.students[key].periodRooms[param.period]}):</strong> ${studentPaths[key].paths[studentPathChoice[key].mInd].path.map(x => x.id)} <br><strong>Contacted students with these ids: </strong>${studentPathChoice[key].mContLi}`;
         stuPathElem.appendChild(tempLi);
     }
