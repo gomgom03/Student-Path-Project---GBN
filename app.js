@@ -22,6 +22,10 @@ app.get('/testerhome', (req, res) => {
     res.render('tester-home.ejs')
 });
 
+app.get("/testerhome2", (req, res) => {
+    res.render('tester-home2.ejs')
+})
+
 app.get('/studata', (req, res) => {
     res.render('stuData.ejs')
 })

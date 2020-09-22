@@ -68,4 +68,4 @@ function putData(data) {
 }
 
 // CREATE STUDENTS
-// let tstr = "";for(let i = 20;i<50;i++){tstr+=`${i}\t`;for(let j = 0; j<8; j++){tstr+= temp[Math.floor(Math.random()*temp.length)] + "\t"}tstr+="\n"}
+// let temp= Object.keys(mapProps.rooms); let tstr = "";for(let i = 0;i<100;i++){tstr+=`${i}\t`;for(let j = 0; j<8; j++){tstr+= temp[Math.floor(Math.random()*temp.length)] + "\t"}tstr+="\n"}

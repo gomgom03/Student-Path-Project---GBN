@@ -7,9 +7,10 @@ let param = {
     initialDepth: 12,
     traceRemainTime: 60,
     avgPace: 3.1,
-    minimizeIteration: 3,
+    minimizeIteration: 10,
     period: 1
 }
+let timer;
 
 function setup() {
     (() => {
@@ -262,9 +263,10 @@ let asyncCounter = {
     },
 }
 
-function all_spf(period) {
+function all_spf(period = param.period) {
     asyncCounter.reset();
-    asyncCounter.cb = all_minContact;
+    timer = Date.now();
+    asyncCounter.cb = () => { console.log(`${param.initialDepth}    ${param.maxDistDiff}   finished in ${Date.now() - timer}ms`); all_minContact(); };
     if (period < 0 || period > 8) { console.log("invalid period"); return };
     studentPaths = {};
     let tNum = 0;
@@ -399,7 +401,7 @@ function all_minContact() {
             tempTot += studentPathChoice[key].mCont / 2;
         }
         console.log(tempTot);
-        updateStats(tempTot);
+        updateStat != null ? updateStats(tempTot) : null;
         tIter !== minimizeIteration ? (curStu = 0, assignIteration(true)) : null
     }
 }
@@ -417,7 +419,8 @@ function findMaxDepth(storeMin = false) {
         }
     }
     asyncCounter.reset();
-    asyncCounter.cb = checkAndQueue;
+    timer = Date.now();
+    asyncCounter.cb = () => { console.log(`findMaxDepth finished in ${Date.now() - time}ms`); checkAndQueue(); };
     asyncCounter.max = tStudents.length;
     function checkAndQueue() {
         asyncCounter.count = 0;
