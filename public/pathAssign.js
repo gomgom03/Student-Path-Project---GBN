@@ -17,7 +17,7 @@ function setup() {
         rtf("pathsD", "/gbn_data/paths.txt", gbnData);
         rtf("pointsD", "/gbn_data/points.txt", gbnData);
         rtf("structD", "/gbn_data/structure.txt", gbnData);
-        rtf("studentsD", "/gbn_data/students.txt", gbnData);
+        rtf("studentsD", "/gbn_data/students1.txt", gbnData);
     })();
 
     function createMap() {
@@ -277,7 +277,7 @@ function all_spf(period = param.period) {
     asyncCounter.max = tNum;
 }
 
-let studentPathChoice = {}
+let studentPathChoice = {};
 
 function all_minContact() {
     let { maxDistDiff, minimizeIteration } = param;
@@ -400,8 +400,8 @@ function all_minContact() {
         for (let key in studentPathChoice) {
             tempTot += studentPathChoice[key].mCont / 2;
         }
-        console.log(tempTot);
-        updateStat != null ? updateStats(tempTot) : null;
+        console.log(`Trial iteration ${tIter} for job param [${param.initialDepth}, ${param.maxDistDiff}] , ${tempTot}`);
+        typeof updateStats !== "undefined" ? updateStats(tempTot) : null;
         tIter !== minimizeIteration ? (curStu = 0, assignIteration(true)) : null
     }
 }

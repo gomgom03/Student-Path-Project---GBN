@@ -7,23 +7,43 @@ let optionsAll = {
 let trialNum = 0;
 let mddCur = 0;
 let idCur = 0;
+let numIterTrials = 5;
 let intervalObj;
-let started = false;
+let first = true;
+let startAllowed = false;
+let startAllowedDelay = false;
 
 let startElem = document.getElementById("start");
 startElem.addEventListener("click", () => {
     startElem.style.visibility = "hidden";
     intervalObj = setInterval(() => {
-        if (!started || asyncCounter.max === asyncCounter.count) {
-            started = true;
-            test();
+        if (!startAllowed && (first || (asyncCounter.max === asyncCounter.count && !startAllowedDelay))) {
+            first = false;
+            startAllowed = true;
+            startAllowedDelay = true;
+            setTimeout(() => { startAllowedDelay = false; }, 10000)
+        }
+        if (startAllowed) {
+            startAllowed = false;
+            setTimeout(() => {
+                test();
+            }, 5000);
+
 
         }
+        checkEverything();
     }, 1000)
 })
 
+const asyncShowDiv = document.getElementById("asyncShow");
+
+function checkEverything() {
+    asyncShowDiv.textContent = "Student Paths Calculated: " + asyncCounter.count + " / " + asyncCounter.max;
+
+}
+
 function test() {
-    if (trialNum === 5) {
+    if (trialNum === numIterTrials) {
         clearInterval(intervalObj);
         return;
     }
