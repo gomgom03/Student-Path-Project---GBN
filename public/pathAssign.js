@@ -173,7 +173,7 @@ function pointPathSearch(student, prm, period) {
                 shiftPath: shiftPath,
                 trialNum: 1,
                 fullPathSearch: fullPathSearch
-            }, period) : fullPathSearch ? studentPathFind(student, false, period) : (asyncCounter.add(), console.log(student.id));
+            }, period) : fullPathSearch ? studentPathFind(student, false, period) : (asyncCounter.add());
         } else {
             if (shiftPath != null) {
                 allPaths.map(x => [shiftPath].concat(x));
@@ -188,7 +188,7 @@ function pointPathSearch(student, prm, period) {
                 shiftPath: shiftPath,
                 trialNum: 1,
                 minVal: minLen
-            }, period) : (asyncCounter.add(), console.log(student.id));
+            }, period) : (asyncCounter.add());
         }
     }
 
