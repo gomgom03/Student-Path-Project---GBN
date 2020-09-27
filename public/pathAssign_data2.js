@@ -7,7 +7,7 @@ let optionsAll = {
 let trialNum = 0;
 let mddCur = 0;
 let idCur = 0;
-let numIterTrials = 5;
+let numIterTrials = 3;
 let intervalObj;
 let first = true;
 let startAllowed = false;
