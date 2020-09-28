@@ -17,7 +17,7 @@ function setup() {
         rtf("pathsD", "/gbn_data/paths.txt", gbnData);
         rtf("pointsD", "/gbn_data/points.txt", gbnData);
         rtf("structD", "/gbn_data/structure.txt", gbnData);
-        rtf("studentsD", "/gbn_data/students2.txt", gbnData);
+        rtf("studentsD", "/gbn_data/students3.txt", gbnData);
     })();
 
     function createMap() {
