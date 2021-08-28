@@ -420,7 +420,7 @@ function findMaxDepth(storeMin = false) {
     }
     asyncCounter.reset();
     timer = Date.now();
-    asyncCounter.cb = () => { console.log(`findMaxDepth finished in ${Date.now() - time}ms`); checkAndQueue(); };
+    asyncCounter.cb = () => { console.log(`findMaxDepth finished in ${Date.now() - timer}ms`); checkAndQueue(); };
     asyncCounter.max = tStudents.length;
     function checkAndQueue() {
         asyncCounter.count = 0;
